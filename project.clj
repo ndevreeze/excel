@@ -6,7 +6,8 @@
             :url "http://opensource.org/licenses/BSD-2-Clause"}
   :dependencies [[org.clojure/clojure "1.10.1"]
                  [org.clojure/tools.logging "0.2.6"]
-                 [org.apache.poi/poi-ooxml "4.1.2"]]
+                 [org.apache.poi/poi-ooxml "4.1.2"]
+                 [clojure.java-time "0.3.2"]]
   :profiles
   {:dev {:dependencies [[midje "1.9.9"]
                         [lazytest "1.2.3"]]
