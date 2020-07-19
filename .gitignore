@@ -6,3 +6,6 @@ pom.xml.asc
 /classes/
 /target/
 .lein-deps-sum
+.nrepl-port
+_git-clean-changes.sh
+git-add-commit.sh
