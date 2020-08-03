@@ -12,4 +12,9 @@
   {:dev {:dependencies [[midje "1.9.9"]
                         [lazytest "1.2.3"]]
          :plugins [[lein-midje "3.2.2"]
-                   [lein-marginalia "0.7.1"]]}})
+                   [lein-marginalia "0.7.1"]]}}
+
+  :repositories [["releases" {:url "https://clojars.org/repo/"
+                              :creds :gpg}]]
+
+  )
