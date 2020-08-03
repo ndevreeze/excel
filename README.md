@@ -30,6 +30,7 @@ Use it to load a workbook and read sheets:
       (println "Sheet1:" (count sheet) (first sheet)))
 
 Use the options parameter to get data back in different data formats:
+
     (xls/read-sheet {:values :values} workbook "Sheet1")
     (xls/read-sheet {:values :strings} workbook "Sheet1")
     (xls/read-sheet {:values :formatted} workbook "Sheet1")
