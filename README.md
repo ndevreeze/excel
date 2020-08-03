@@ -51,9 +51,9 @@ This version adds option to get data in the correct datatypes, including dates a
 
 ## History
 
-0.2.5 - base version from ontodev
-0.3.0 - another fork by joshuaeckroth
-0.3.1 - use POI 4.1.2, return different data formats.
+* 0.2.5 - base version from ontodev
+* 0.3.0 - another fork by joshuaeckroth
+* 0.3.1 - use POI 4.1.2, return different data formats.
 
 ## License
 
