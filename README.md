@@ -57,8 +57,7 @@ This version adds option to get data in the correct datatypes, including dates a
 
 ## License
 
-Copyright © 2014, James A. Overton
-Copyright © 2020, Nico de Vreeze
+Copyright © 2014, James A. Overton; Copyright © 2020, Nico de Vreeze
 
 Distributed under the Simplified BSD License: [http://opensource.org/licenses/BSD-2-Clause]()
 
