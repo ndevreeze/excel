@@ -2,7 +2,7 @@
 
 A thin [Clojure](http://clojure.org) wrapper around a small part of [Apache POI](http://poi.apache.org) for reading `.xlsx` files. 
 
-For a more complete implementation, see the `incanter-excel` module from the [Incanter](https://github.com/liebke/incanter) project. Althought, currently (August 2020) Incanter uses POI 3.16.
+For a more complete implementation, see the `incanter-excel` module from the [Incanter](https://github.com/liebke/incanter) project. Although, currently (August 2020) Incanter uses POI 3.16.
 
 ## Installation
 
