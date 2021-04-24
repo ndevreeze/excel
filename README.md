@@ -50,6 +50,11 @@ This version adds option to get data in the correct datatypes, including dates a
     nil
     All checks (83) succeeded.
 
+## Documentation
+
+* See See codox generated [API docs](https://ndevreeze.github.io/excel/api/index.html). 
+* Or: https://cljdoc.org/d/ndevreeze/excel/0.3.1/doc/readme
+
 ## History
 
 * 0.2.5 - base version from ontodev
