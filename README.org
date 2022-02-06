@@ -1,0 +1,111 @@
+#+TITLE: ontodev.excel / ndevreeze.excel
+* ontodev.excel / ndevreeze.excel
+  :PROPERTIES:
+  :CUSTOM_ID: ontodev.excel-ndevreeze.excel
+  :END:
+
+A thin [[http://clojure.org][Clojure]] wrapper around a small part of
+[[http://poi.apache.org][Apache POI]] for reading =.xlsx= files.
+
+For a more complete implementation, see the =incanter-excel= module from
+the [[https://github.com/liebke/incanter][Incanter]] project. Although,
+currently (August 2020) Incanter uses POI 3.16.
+
+* Installation
+   :PROPERTIES:
+   :CUSTOM_ID: installation
+   :END:
+
+Leiningen/Boot
+
+#+BEGIN_EXAMPLE
+    [ndevreeze/excel "0.3.1"]
+#+END_EXAMPLE
+
+Clojure CLI/deps.edn
+
+#+BEGIN_EXAMPLE
+    ndevreeze/excel {:mvn/version "0.3.1"}
+#+END_EXAMPLE
+
+[[https://clojars.org/ndevreeze/excel][https://img.shields.io/clojars/v/ndevreeze/excel.svg]]
+
+* Usage
+   :PROPERTIES:
+   :CUSTOM_ID: usage
+   :END:
+
+=require= the namespace:
+
+#+BEGIN_EXAMPLE
+    (ns your.project
+      (:require [ontodev.excel :as xls]))
+#+END_EXAMPLE
+
+Use it to load a workbook and read sheets:
+
+#+BEGIN_EXAMPLE
+    (let [workbook (xls/load-workbook "test.xlsx")
+          sheet    (xls/read-sheet workbook "Sheet1")]
+      (println "Sheet1:" (count sheet) (first sheet)))
+#+END_EXAMPLE
+
+Use the options parameter to get data back in different data formats:
+
+#+BEGIN_EXAMPLE
+    (xls/read-sheet {:values :values} workbook "Sheet1")
+    (xls/read-sheet {:values :strings} workbook "Sheet1")
+    (xls/read-sheet {:values :formatted} workbook "Sheet1")
+#+END_EXAMPLE
+
+* Related projects
+   :PROPERTIES:
+   :CUSTOM_ID: related-projects
+   :END:
+
+Thanks to James Overton (ontodev) for starting this library.
+
+-  https://github.com/ontodev/excel - at version 0.2.5, using POI 3.8
+-  https://github.com/joshuaeckroth/excel - another fork, version 0.3.0,
+   using POI 4.0.1
+
+This version adds option to get data in the correct datatypes, including
+dates and times. Also there is an option to get the formatted data.
+
+* Testing
+   :PROPERTIES:
+   :CUSTOM_ID: testing
+   :END:
+
+#+BEGIN_EXAMPLE
+    $ lein midje
+    nil
+    All checks (83) succeeded.
+#+END_EXAMPLE
+
+* Documentation
+   :PROPERTIES:
+   :CUSTOM_ID: documentation
+   :END:
+
+-  See See codox generated [[https://ndevreeze.github.io/excel/api/index.html][API docs]].
+-  Or: https://cljdoc.org/d/ndevreeze/excel/0.3.1/doc/readme
+
+* History
+   :PROPERTIES:
+   :CUSTOM_ID: history
+   :END:
+
+-  0.2.5 - base version from ontodev
+-  0.3.0 - another fork by joshuaeckroth
+-  0.3.1 - use POI 4.1.2, return different data formats.
+
+* License
+   :PROPERTIES:
+   :CUSTOM_ID: license
+   :END:
+
+Copyright © 2014, James A. Overton; Copyright © 2020, Nico de Vreeze
+
+Distributed under the Simplified BSD License:
+[[http://opensource.org/licenses/BSD-2-Clause]]
