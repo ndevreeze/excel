@@ -9,3 +9,4 @@ pom.xml.asc
 .nrepl-port
 _git-clean-changes.sh
 git-add-commit.sh
+/README.html
