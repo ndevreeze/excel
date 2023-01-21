@@ -4,12 +4,12 @@
   :url "http://github.com/ndevreeze/excel"
   :license {:name "Simplified BSD License"
             :url "http://opensource.org/licenses/BSD-2-Clause"}
-  :dependencies [[org.clojure/clojure "1.10.1"]
-                 [org.clojure/tools.logging "1.1.0"]
-                 [org.apache.poi/poi-ooxml "4.1.2"]
-                 [clojure.java-time "0.3.2"]]
+  :dependencies [[org.clojure/clojure "1.11.1"]
+                 [org.clojure/tools.logging "1.2.4"]
+                 [org.apache.poi/poi-ooxml "5.2.3"]
+                 [clojure.java-time "1.2.0"]]
   :profiles
-  {:dev {:dependencies [[midje "1.9.9"]
+  {:dev {:dependencies [[midje "1.10.9"]
                         [lazytest "1.2.3"]]
          :plugins [[lein-midje "3.2.2"]
                    [lein-marginalia "0.7.1"]]}}
