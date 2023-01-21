@@ -10,3 +10,4 @@ pom.xml.asc
 _git-clean-changes.sh
 git-add-commit.sh
 /README.html
+.lein-failures
