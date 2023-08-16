@@ -7,7 +7,7 @@
   :dependencies [[org.clojure/clojure "1.11.1"]
                  [org.clojure/tools.logging "1.2.4"]
                  [org.apache.poi/poi-ooxml "5.2.3"]
-                 [clojure.java-time "1.2.0"]]
+                 [clojure.java-time "1.3.0"]]
   :profiles
   {:dev {:dependencies [[midje "1.10.9"]
                         [lazytest "1.2.3"]]
