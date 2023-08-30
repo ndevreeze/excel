@@ -157,12 +157,13 @@
   ([opt ^Workbook workbook] (read-sheet opt workbook "Sheet1" 1))
   ([opt ^Workbook workbook ^String sheet-name] (read-sheet opt workbook sheet-name 1))
   ([opt ^Workbook workbook ^String sheet-name n-header-rows]
-   (let [sheet       (.getSheet workbook sheet-name)
-         rows        (->> sheet (.iterator) iterator-seq (drop (dec n-header-rows)))
-         cell-fn     (cell-value-fn opt workbook)
-         read-row-fn (partial read-row cell-fn)
-         headers     (map to-keyword (read-row-fn (first rows)))
-         data        (map read-row-fn (rest rows))]
+   (let [sheet          (.getSheet workbook sheet-name)
+         rows           (->> sheet (.iterator) iterator-seq (drop (dec n-header-rows)))
+         cell-fn        (cell-value-fn opt workbook)
+         read-row-fn    (partial read-row cell-fn)
+         read-header-fn (partial read-row get-cell-string-value)
+         headers        (map to-keyword (read-header-fn (first rows)))
+         data           (map read-row-fn (rest rows))]
      (vec (map (partial zipmap headers) data)))))
 
 (defn list-sheets
@@ -186,7 +187,4 @@
   [path]
   (log/debugf "Loading workbook:" path)
   (doto (WorkbookFactory/create (io/input-stream path))
-        (.setMissingCellPolicy Row$MissingCellPolicy/CREATE_NULL_AS_BLANK)))
-
-
-
+    (.setMissingCellPolicy Row$MissingCellPolicy/CREATE_NULL_AS_BLANK)))
