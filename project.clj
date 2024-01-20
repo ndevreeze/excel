@@ -9,7 +9,7 @@
                  [org.apache.poi/poi-ooxml "5.2.5"]
                  [clojure.java-time "1.4.2"]]
   :profiles
-  {:dev {:dependencies [[midje "1.10.9"]
+  {:dev {:dependencies [[midje "1.10.10"]
                         [lazytest "1.2.3"]]
          :plugins [[lein-midje "3.2.2"]
                    [lein-marginalia "0.7.1"]]}}
