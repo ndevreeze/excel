@@ -4,7 +4,7 @@
   :url "http://github.com/ndevreeze/excel"
   :license {:name "Simplified BSD License"
             :url "http://opensource.org/licenses/BSD-2-Clause"}
-  :dependencies [[org.clojure/clojure "1.11.1"]
+  :dependencies [[org.clojure/clojure "1.11.2"]
                  [org.clojure/tools.logging "1.3.0"]
                  [org.apache.poi/poi-ooxml "5.2.5"]
                  [clojure.java-time "1.4.2"]]
