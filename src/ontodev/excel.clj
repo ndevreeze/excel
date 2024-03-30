@@ -30,6 +30,11 @@
 ;;
 ;; With POI 4.1.2 Cell Type and formatting seem to work fine, including date types.
 
+(defn version
+  "Return version details, for now manually"
+  []
+  "ndevreeze/excel v0.3.2-SNAPSHOT, 2024-03-30 11:42, incl handling of / in to-keyword")
+
 (defn get-cell-string-value
   "Get the value of a cell as a string, by changing the cell type to 'string'
    and then changing it back.
@@ -50,13 +55,24 @@
 ;; translate its values into keywords. Then we return each subsequent row
 ;; as a map from keys to cell values.
 
+#_(defn to-keyword
+    "Take a string and return a properly formatted keyword."
+    [s]
+    (-> (or s "")
+        string/trim
+        string/lower-case
+        (string/replace #"\s+" "-")
+        keyword))
+
 (defn to-keyword
-  "Take a string and return a properly formatted keyword."
+  "Take a string and return a properly formatted keyword.
+   Replace all characters outside of letter, digits and underscore"
   [s]
   (-> (or s "")
       string/trim
       string/lower-case
       (string/replace #"\s+" "-")
+      (string/replace #"[^A-Za-z0-9_]" "-")
       keyword))
 
 (defn int-value?
