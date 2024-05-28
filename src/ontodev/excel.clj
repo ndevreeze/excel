@@ -33,7 +33,7 @@
 (defn version
   "Return version details, for now manually"
   []
-  "ndevreeze/excel v0.3.2-SNAPSHOT, 2024-03-30 11:42, incl handling of / in to-keyword")
+  "ndevreeze/excel v0.3.2-SNAPSHOT, 2024-05-28 17:18, incl combine-header-rows")
 
 (defn get-cell-string-value
   "Get the value of a cell as a string, by changing the cell type to 'string'
@@ -160,6 +160,39 @@
     ;; default as string values, like original.
     get-cell-string-value))
 
+;; 2024-05-28: old version, using just the last row of the headers when n-header-rows > 1.
+#_(defn read-sheet
+    "Given a workbook with an optional sheet name (default is 'Sheet1') and
+   and optional header row number (default is '1'),
+   return the data in the sheet as a vector of maps
+   using the headers from the header row as the keys.
+   Use :values key in opt (map) to determine how to determine the values:
+     :strings   - the default, all values are returned as strings
+     :values    - the actual values with correct datatype, including dates/times based on cell-formatting
+     :formatted - the formatted values"
+    ([^Workbook workbook] (read-sheet {} workbook "Sheet1" 1))
+    ([opt ^Workbook workbook] (read-sheet opt workbook "Sheet1" 1))
+    ([opt ^Workbook workbook ^String sheet-name] (read-sheet opt workbook sheet-name 1))
+    ([opt ^Workbook workbook ^String sheet-name n-header-rows]
+     (let [sheet          (.getSheet workbook sheet-name)
+           rows           (->> sheet (.iterator) iterator-seq (drop (dec n-header-rows)))
+           cell-fn        (cell-value-fn opt workbook)
+           read-row-fn    (partial read-row cell-fn)
+           read-header-fn (partial read-row get-cell-string-value)
+           headers        (map to-keyword (read-header-fn (first rows)))
+           data           (map read-row-fn (rest rows))]
+       (vec (map (partial zipmap headers) data)))))
+
+(defn combine-headers
+  [& strings]
+  (string/join " " strings))
+
+(defn combine-row-headers
+  [rows-header]
+  (let [header-rows (map read-row rows-header)
+        headers (apply map combine-headers header-rows)]
+    (map to-keyword headers)))
+
 (defn read-sheet
   "Given a workbook with an optional sheet name (default is 'Sheet1') and
    and optional header row number (default is '1'),
@@ -168,19 +201,44 @@
    Use :values key in opt (map) to determine how to determine the values:
      :strings   - the default, all values are returned as strings
      :values    - the actual values with correct datatype, including dates/times based on cell-formatting
-     :formatted - the formatted values"
+     :formatted - the formatted values
+   If n-header-rows > 1, use all of the headers to determine field-name"
   ([^Workbook workbook] (read-sheet {} workbook "Sheet1" 1))
   ([opt ^Workbook workbook] (read-sheet opt workbook "Sheet1" 1))
   ([opt ^Workbook workbook ^String sheet-name] (read-sheet opt workbook sheet-name 1))
   ([opt ^Workbook workbook ^String sheet-name n-header-rows]
    (let [sheet          (.getSheet workbook sheet-name)
-         rows           (->> sheet (.iterator) iterator-seq (drop (dec n-header-rows)))
+         rows-all       (->> sheet (.iterator) iterator-seq)
+         rows-header    (take n-header-rows rows-all)
+         rows-data      (drop n-header-rows rows-all)
          cell-fn        (cell-value-fn opt workbook)
          read-row-fn    (partial read-row cell-fn)
-         read-header-fn (partial read-row get-cell-string-value)
-         headers        (map to-keyword (read-header-fn (first rows)))
-         data           (map read-row-fn (rest rows))]
+         headers        (combine-row-headers rows-header)
+         data           (map read-row-fn rows-data)]
      (vec (map (partial zipmap headers) data)))))
+
+(comment
+  (def excel-file "/Users/nicodevreeze/Downloads/data.xlsx")
+  (def workbook (load-workbook excel-file))
+  (def data-orig (read-sheet {} workbook "Export" 2))
+  (def sheet (.getSheet workbook "Export"))
+  (def rows-all (->> sheet (.iterator) iterator-seq))
+  (def rows-header    (take 2 rows-all))
+  (def rows-data      (drop 2 rows-all))
+  (def read-header-fn (partial read-row get-cell-string-value))
+
+  (def header-rows (map read-row rows-header))
+
+  ;; eerst fn die 2 rijen kan combineren, daarna kijken hoe het met 1 en 3 gaat.
+  (apply map + [[1 2 3] [4 5 6]])
+  (apply map str [[1 2 3] [4 5 6]])
+  (apply map str header-rows)
+  (apply map combine-headers header-rows)
+
+  (combine-row-headers rows-header)
+
+  (def data (read-sheet2 {} workbook "Export" 2))
+  )
 
 (defn list-sheets
   "Return a list of all sheet names."
