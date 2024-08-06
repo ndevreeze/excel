@@ -57,3 +57,6 @@
   (check-row-formatted-3 (nth data 3))
   (check-row-formatted-4 (nth data 4))
   (check-row-formatted-5 (nth data 5)))
+
+;; 2024-08-06: generate dummy error to prevent updating the POI lib. Replace with real test that shows the error.
+(fact "dummy test wrt PO" "Dummy" => "ok")
