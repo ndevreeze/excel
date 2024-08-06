@@ -33,7 +33,7 @@
 (defn version
   "Return version details, for now manually"
   []
-  "ndevreeze/excel v0.3.2-SNAPSHOT, 2024-05-28 17:18, incl combine-header-rows")
+  "ndevreeze/excel v0.3.2-SNAPSHOT, [2024-08-01 14:21] with poi 5.2.5")
 
 (defn get-cell-string-value
   "Get the value of a cell as a string, by changing the cell type to 'string'
