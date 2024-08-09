@@ -4,7 +4,7 @@
   :url "http://github.com/ndevreeze/excel"
   :license {:name "Simplified BSD License"
             :url "http://opensource.org/licenses/BSD-2-Clause"}
-  :dependencies [[org.clojure/clojure "1.11.3"]
+  :dependencies [[org.clojure/clojure "1.11.4"]
                  [org.clojure/tools.logging "1.3.0"]
                  ;; [org.apache.poi/poi-ooxml "5.3.0"]
                  ;; 2024-08-01: 5.3.0 gives errors, see if previous versions are still ok.
