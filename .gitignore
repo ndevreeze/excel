@@ -11,3 +11,6 @@ _git-clean-changes.sh
 git-add-commit.sh
 /README.html
 .lein-failures
+
+# 2024-08-09: Have some private test-files, that might give errors, but keep them out of the repo.
+*private*
