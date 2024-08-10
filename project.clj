@@ -7,7 +7,7 @@
   :dependencies [[org.clojure/clojure "1.11.4"]
                  [org.clojure/tools.logging "1.3.0"]
                  ;; [org.apache.poi/poi-ooxml "5.3.0"]
-                 ;; 2024-08-01: 5.3.0 gives errors, see if previous versions are still ok.
+                 ;; 2024-08-01: 5.3.0 gives errors, 5.2.5 is still ok.
                  [org.apache.poi/poi-ooxml "5.2.5"]
                  [clojure.java-time "1.4.2"]]
   :profiles
