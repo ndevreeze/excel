@@ -1,13 +1,14 @@
 (ns ontodev.excel-test
-  (:use midje.sweet
-        ontodev.excel))
+  (:require [clojure.test :refer :all]
+            [midje.sweet :refer :all]
+            [ontodev.excel :refer :all]))
 
 (defn check-row
   [row]
   (facts "check-row"
-    (:integer row) => "1001" 
-    (:float row) => "1001.01" 
-    (:formula row) => "2002.01"))
+         (:integer row) => "1001"
+         (:float row) => "1001.01"
+         (:formula row) => "2002.01"))
 
 (let [workbook (load-workbook "resources/test.xlsx")
       data     (read-sheet workbook)]
@@ -59,4 +60,9 @@
   (check-row-formatted-5 (nth data 5)))
 
 ;; 2024-08-06: generate dummy error to prevent updating the POI lib. Replace with real test that shows the error.
-(fact "dummy test wrt PO" "Dummy" => "ok")
+(fact "dummy test wrt POI 5.3.0" "Dummy" => "ok")
+
+;; 2024-08-10: lein ancient does not look at Midje results, so add a failing normal test.
+(deftest a-test
+  (testing "Failing wrt POI 5.3.0 issues"
+    (is (= 0 1))))
