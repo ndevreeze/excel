@@ -30,10 +30,16 @@
 ;;
 ;; With POI 4.1.2 Cell Type and formatting seem to work fine, including date types.
 
+#_(defn version
+    "Return version details, for now manually"
+    []
+    "ndevreeze/excel v0.3.2-SNAPSHOT, [2024-08-01 14:21] with poi 5.2.5")
+
+;; [2024-08-10 12:51] Issues with 5.3.0, create a test for this, hopefully fix.
 (defn version
   "Return version details, for now manually"
   []
-  "ndevreeze/excel v0.3.2-SNAPSHOT, [2024-08-01 14:21] with poi 5.2.5")
+  "ndevreeze/excel v0.3.2-SNAPSHOT, [2024-08-10 12:51] with poi 5.3.0")
 
 (defn get-cell-string-value
   "Get the value of a cell as a string, by changing the cell type to 'string'

@@ -59,6 +59,11 @@
   (check-row-formatted-4 (nth data 4))
   (check-row-formatted-5 (nth data 5)))
 
+(deftest show-version
+  (testing "Showing current version"
+    (println (format "Excel lib version: %s" (version)))
+    (is (= (version) (version)))))
+
 ;; 2024-08-06: generate dummy error to prevent updating the POI lib. Replace with real test that shows the error.
 (fact "dummy test wrt POI 5.3.0" "Dummy" => "ok")
 
