@@ -13,8 +13,8 @@
                  ;; 2024-08-20: message: ERROR Log4j2 could not find a
                  ;; logging implementation. Please add log4j-core to
                  ;; the classpath. This indeed helps.
-                 [org.apache.logging.log4j/log4j-api "2.24.0"]
-                 [org.apache.logging.log4j/log4j-core "2.24.0"]]
+                 [org.apache.logging.log4j/log4j-api "2.24.1"]
+                 [org.apache.logging.log4j/log4j-core "2.24.1"]]
   :profiles
   {:dev {:dependencies [[midje "1.10.10"]
                         [lazytest "1.2.3"]]
