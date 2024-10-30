@@ -34,7 +34,7 @@
 (defn version
   "Return version details, for now manually"
   []
-  "ndevreeze/excel v0.3.2-SNAPSHOT, [2024-08-10 12:51] with poi 5.3.0")
+  "ndevreeze/excel v0.3.2-SNAPSHOT, [2024-10-30 18:25] with sorted-map")
 
 (defn get-cell-string-value
   "Get the value of a cell as a string, by changing the cell type to 'string'
@@ -162,6 +162,11 @@
         headers (apply map combine-headers header-rows)]
     (map to-keyword headers)))
 
+(defn sorted-zipmap
+  "zipmap, but put keys in alphabetical order"
+  [keys vals]
+  (into (sorted-map) (zipmap keys vals)))
+
 (defn read-sheet
   "Given a workbook with an optional sheet name (default is 'Sheet1') and
    and optional header row number (default is '1'),
@@ -184,7 +189,7 @@
          read-row-fn    (partial read-row cell-fn)
          headers        (combine-row-headers rows-header)
          data           (map read-row-fn rows-data)]
-     (vec (map (partial zipmap headers) data)))))
+     (vec (map (partial sorted-zipmap headers) data)))))
 
 (comment
   (def excel-file "/Users/nicodevreeze/Downloads/data.xlsx")
