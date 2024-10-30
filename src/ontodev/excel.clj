@@ -30,11 +30,6 @@
 ;;
 ;; With POI 4.1.2 Cell Type and formatting seem to work fine, including date types.
 
-#_(defn version
-    "Return version details, for now manually"
-    []
-    "ndevreeze/excel v0.3.2-SNAPSHOT, [2024-08-01 14:21] with poi 5.2.5")
-
 ;; [2024-08-10 12:51] Issues with 5.3.0, create a test for this, hopefully fix.
 (defn version
   "Return version details, for now manually"
@@ -60,15 +55,6 @@
 ;; Rows are made up of cells. We consider the first row to be a header, and
 ;; translate its values into keywords. Then we return each subsequent row
 ;; as a map from keys to cell values.
-
-#_(defn to-keyword
-    "Take a string and return a properly formatted keyword."
-    [s]
-    (-> (or s "")
-        string/trim
-        string/lower-case
-        (string/replace #"\s+" "-")
-        keyword))
 
 (defn to-keyword
   "Take a string and return a properly formatted keyword.
@@ -165,29 +151,6 @@
     :strings get-cell-string-value
     ;; default as string values, like original.
     get-cell-string-value))
-
-;; 2024-05-28: old version, using just the last row of the headers when n-header-rows > 1.
-#_(defn read-sheet
-    "Given a workbook with an optional sheet name (default is 'Sheet1') and
-   and optional header row number (default is '1'),
-   return the data in the sheet as a vector of maps
-   using the headers from the header row as the keys.
-   Use :values key in opt (map) to determine how to determine the values:
-     :strings   - the default, all values are returned as strings
-     :values    - the actual values with correct datatype, including dates/times based on cell-formatting
-     :formatted - the formatted values"
-    ([^Workbook workbook] (read-sheet {} workbook "Sheet1" 1))
-    ([opt ^Workbook workbook] (read-sheet opt workbook "Sheet1" 1))
-    ([opt ^Workbook workbook ^String sheet-name] (read-sheet opt workbook sheet-name 1))
-    ([opt ^Workbook workbook ^String sheet-name n-header-rows]
-     (let [sheet          (.getSheet workbook sheet-name)
-           rows           (->> sheet (.iterator) iterator-seq (drop (dec n-header-rows)))
-           cell-fn        (cell-value-fn opt workbook)
-           read-row-fn    (partial read-row cell-fn)
-           read-header-fn (partial read-row get-cell-string-value)
-           headers        (map to-keyword (read-header-fn (first rows)))
-           data           (map read-row-fn (rest rows))]
-       (vec (map (partial zipmap headers) data)))))
 
 (defn combine-headers
   [& strings]
