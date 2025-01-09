@@ -7,14 +7,15 @@
   :dependencies [[org.clojure/clojure "1.12.0"]
                  [org.clojure/tools.logging "1.3.0"]
                  ;; 2024-08-17: fixed now, 5.2.5 not needed anymore.
-                 [org.apache.poi/poi-ooxml "5.3.0"]
+                 [org.apache.poi/poi-ooxml "5.4.0" :exclusions [commons-io]]
                  [clojure.java-time "1.4.3"]
-
+                 [commons-io "2.16.1"]
+                 
                  ;; 2024-08-20: message: ERROR Log4j2 could not find a
                  ;; logging implementation. Please add log4j-core to
                  ;; the classpath. This indeed helps.
-                 [org.apache.logging.log4j/log4j-api "2.24.2"]
-                 [org.apache.logging.log4j/log4j-core "2.24.2"]]
+                 [org.apache.logging.log4j/log4j-api "2.24.3"]
+                 [org.apache.logging.log4j/log4j-core "2.24.3"]]
   :profiles
   {:dev {:dependencies [[midje "1.10.10"]
                         [lazytest "1.2.3"]]
