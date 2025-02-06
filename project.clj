@@ -9,7 +9,7 @@
                  ;; 2024-08-17: fixed now, 5.2.5 not needed anymore.
                  [org.apache.poi/poi-ooxml "5.4.0" :exclusions [commons-io]]
                  [clojure.java-time "1.4.3"]
-                 [commons-io "2.16.1"]
+                 [commons-io "2.18.0"]
                  
                  ;; 2024-08-20: message: ERROR Log4j2 could not find a
                  ;; logging implementation. Please add log4j-core to
