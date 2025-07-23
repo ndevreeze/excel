@@ -9,13 +9,13 @@
                  ;; 2024-08-17: fixed now, 5.2.5 not needed anymore.
                  [org.apache.poi/poi-ooxml "5.4.1" :exclusions [commons-io]]
                  [clojure.java-time "1.4.3"]
-                 [commons-io "2.19.0"]
+                 [commons-io "2.20.0"]
                  
                  ;; 2024-08-20: message: ERROR Log4j2 could not find a
                  ;; logging implementation. Please add log4j-core to
                  ;; the classpath. This indeed helps.
-                 [org.apache.logging.log4j/log4j-api "2.25.0"]
-                 [org.apache.logging.log4j/log4j-core "2.25.0"]]
+                 [org.apache.logging.log4j/log4j-api "2.25.1"]
+                 [org.apache.logging.log4j/log4j-core "2.25.1"]]
   :profiles
   {:dev {:dependencies [[midje "1.10.10"]
                         [lazytest "1.2.3"]]
