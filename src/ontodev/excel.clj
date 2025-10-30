@@ -16,7 +16,7 @@
             [java-time :as time])
   (:import
    (org.apache.poi.ss.usermodel Cell CellType Row Row$MissingCellPolicy
-                                Sheet Workbook WorkbookFactory
+                                Workbook WorkbookFactory
                                 DateUtil DataFormatter FormulaEvaluator)))
 
 ;; ## Cells
@@ -41,9 +41,9 @@
    and then changing it back.
    optional cell-type is not used here."
   ([cell] (get-cell-string-value cell nil))
-  ([cell cell-type]
+  ([cell _cell-type]
    (let [ct    (.getCellType cell)
-         cf    (if (= ct CellType/FORMULA) (.getCellFormula cell))
+         cf    (when (= ct CellType/FORMULA) (.getCellFormula cell))
          _     (.setCellType cell CellType/STRING)
          value (.getStringCellValue cell)]
      (if (= ct CellType/FORMULA)
@@ -110,7 +110,7 @@
              [^FormulaEvaluator evaluator ^DataFormatter data-formatter ^Cell cell]
              (try
                (cell-value-formatted evaluator data-formatter cell (.getCachedFormulaResultType cell))
-               (catch Exception e
+               (catch Exception _e
                  (cell-value cell (.getCachedFormulaResultType cell)))))]
      (condp = cell-type
        CellType/BLANK nil
@@ -211,7 +211,7 @@
 
   (combine-row-headers rows-header)
 
-  (def data (read-sheet2 {} workbook "Export" 2))
+  #_(def data (read-sheet2 {} workbook "Export" 2))
   )
 
 (defn list-sheets
@@ -233,6 +233,6 @@
 (defn load-workbook
   "Load a workbook from a string path."
   [path]
-  (log/debugf "Loading workbook:" path)
+  (log/debugf (format "Loading workbook: %s" path))
   (doto (WorkbookFactory/create (io/input-stream path))
     (.setMissingCellPolicy Row$MissingCellPolicy/CREATE_NULL_AS_BLANK)))
