@@ -10,7 +10,9 @@
                  [org.apache.poi/poi-ooxml "5.4.1" :exclusions [commons-io]]
                  [clojure.java-time "1.4.3"]
                  [commons-io "2.20.0"]
-                 
+
+                 ;; preserve column order when inserting rows into database.
+                 [org.flatland/ordered "1.15.12"]
                  ;; 2024-08-20: message: ERROR Log4j2 could not find a
                  ;; logging implementation. Please add log4j-core to
                  ;; the classpath. This indeed helps.

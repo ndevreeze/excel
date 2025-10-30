@@ -13,6 +13,8 @@
   (:require [clojure.tools.logging :as log]
             [clojure.string :as string]
             [clojure.java.io :as io]
+            [flatland.ordered.map :as omap]
+            ;; [flatland.ordered.set :as oset]
             [java-time :as time])
   (:import
    (org.apache.poi.ss.usermodel Cell CellType Row Row$MissingCellPolicy
@@ -34,7 +36,12 @@
 (defn version
   "Return version details, for now manually"
   []
-  "ndevreeze/excel v0.3.2-SNAPSHOT, [2024-10-30 18:25] with sorted-map")
+  "ndevreeze/excel v0.3.2-SNAPSHOT, [2025-10-30 19:56] with ordered-map")
+
+#_(defn version
+    "Return version details, for now manually"
+    []
+    "ndevreeze/excel v0.3.2-SNAPSHOT, [2024-10-30 18:25] with sorted-map")
 
 (defn get-cell-string-value
   "Get the value of a cell as a string, by changing the cell type to 'string'
@@ -162,10 +169,37 @@
         headers (apply map combine-headers header-rows)]
     (map to-keyword headers)))
 
-(defn sorted-zipmap
-  "zipmap, but put keys in alphabetical order"
+#_(defn sorted-zipmap
+    "zipmap, but put keys in alphabetical order"
+    [keys vals]
+    (into (sorted-map) (zipmap keys vals)))
+
+(defn ordered-zipmap
+  "zipmap, but put keys in original order"
   [keys vals]
-  (into (sorted-map) (zipmap keys vals)))
+  (into (omap/ordered-map) (zipmap keys vals)))
+
+#_(defn regular-zipmap
+    "zipmap, but put keys in original order"
+    [keys vals]
+    (into {} (zipmap keys vals)))
+
+(comment
+  ;; create ordered-map where key-order is same as in keys.
+  (def keys [:a :b :c :d :e])
+  (def vals [1 2 3 4 5])
+  #_(sorted-zipmap keys vals) ;; this is ok, but sorted, so another test:
+
+  (def keys [:z :b :x :d :e])
+  (def vals [1 2 3 4 5])
+  #_(sorted-zipmap keys vals) ;; b, d, e, x, z, so indeed sorted. But want to keep orig order.
+
+  (ordered-zipmap keys vals) ;; z, b, x, d, e, so ok
+
+  ;; regular map, should mix things up:
+  #_(regular-zipmap keys vals) ;; z, b, x, d, e, so also ok
+
+  )
 
 (defn read-sheet
   "Given a workbook with an optional sheet name (default is 'Sheet1') and
@@ -189,7 +223,7 @@
          read-row-fn    (partial read-row cell-fn)
          headers        (combine-row-headers rows-header)
          data           (map read-row-fn rows-data)]
-     (vec (map (partial sorted-zipmap headers) data)))))
+     (vec (map (partial ordered-zipmap headers) data))))) ;; 2025-10-30: was sorted-zipmap
 
 (comment
   (def excel-file "/Users/nicodevreeze/Downloads/data.xlsx")
