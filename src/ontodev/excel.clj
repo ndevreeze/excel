@@ -174,10 +174,11 @@
     [keys vals]
     (into (sorted-map) (zipmap keys vals)))
 
-(defn ordered-zipmap
-  "zipmap, but put keys in original order"
-  [keys vals]
-  (into (omap/ordered-map) (zipmap keys vals)))
+;; this one is wrong, zipmap already changes the order, ordered-map is too late.
+#_(defn ordered-zipmap
+    "zipmap, but put keys in original order"
+    [keys vals]
+    (into (omap/ordered-map) (zipmap keys vals)))
 
 #_(defn regular-zipmap
     "zipmap, but put keys in original order"
@@ -201,6 +202,28 @@
 
   )
 
+(defn ordered-zipmap
+  "Returns an ordered-map with the keys mapped to the corresponding vals.
+  zipmap, but put keys in original order"
+  {:added "1.0"
+   :static true}
+  [keys vals]
+  (loop [map (transient (omap/ordered-map))
+         ks (seq keys)
+         vs (seq vals)]
+    (if (and ks vs)
+      (recur (assoc! map (first ks) (first vs))
+             (next ks)
+             (next vs))
+      (persistent! map))))
+
+(comment
+  (def m1 (ordered-zipmap [:a :b :c :d :e] [11 12 13 14 15]))
+  (merge m1 {:rownr 22})
+  (assoc m1 :rownr 22)
+  )
+
+
 (defn read-sheet
   "Given a workbook with an optional sheet name (default is 'Sheet1') and
    and optional header row number (default is '1'),
@@ -223,7 +246,41 @@
          read-row-fn    (partial read-row cell-fn)
          headers        (combine-row-headers rows-header)
          data           (map read-row-fn rows-data)]
-     (vec (map (partial ordered-zipmap headers) data))))) ;; 2025-10-30: was sorted-zipmap
+     (vec (map (partial ordered-zipmap headers) data)))))
+
+(comment
+  ;; 2025-11-04: test with incidents, order of columns. Even with ordered-zipmap, it's still the wrong order.
+  (do
+    (def excel-path "/Users/nicodevreeze/projects/incidents/2025-10/Incidenten 202510.xlsm")
+    (def opt {:n-header-rows 2 :sheet-filter ".*" :values :values :loglevel :info :table "auto"})
+    ;; (excel->db opt db excel-path)
+    (def workbook (load-workbook excel-path))
+    (def sheet "Incidenten")
+    (def sheet-name sheet)
+    (def rows (read-sheet opt workbook sheet-name (:n-header-rows opt)))
+
+    (def sheet (.getSheet workbook sheet-name))
+    (def rows-all       (->> sheet (.iterator) iterator-seq))
+    (def rows-data      (drop n-header-rows rows-all))
+    (def n-header-rows 2)
+    (def rows-header    (take n-header-rows rows-all))
+    (def headers        (combine-row-headers rows-header))
+    (def cell-fn        (cell-value-fn opt workbook))
+    (def read-row-fn    (partial read-row cell-fn))
+    (def data (map read-row-fn rows-data))
+    ;; (def rows2 (map add-rownr rows (range (inc (:n-header-rows opt)) 1e8)))
+    ;; (sheet->db opt db workbook sheet)
+
+    (def res (vec (map (partial ordered-zipmap headers) data)))
+    (def res2 (map (partial ordered-zipmap headers) data))
+    (def res3 (ordered-zipmap headers (first data)))
+
+    (def keys headers)
+    (def vals (first data))
+    (def zm (zipmap keys vals)) ;; this one gives wrong order.
+    )
+  )
+
 
 (comment
   (def excel-file "/Users/nicodevreeze/Downloads/data.xlsx")
