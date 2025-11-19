@@ -7,9 +7,9 @@
   :dependencies [[org.clojure/clojure "1.12.3"]
                  [org.clojure/tools.logging "1.3.0"]
                  ;; 2024-08-17: fixed now, 5.2.5 not needed anymore.
-                 [org.apache.poi/poi-ooxml "5.4.1" :exclusions [commons-io]]
+                 [org.apache.poi/poi-ooxml "5.5.0" :exclusions [commons-io]]
                  [clojure.java-time "1.4.3"]
-                 [commons-io "2.20.0"]
+                 [commons-io "2.21.0"]
 
                  ;; preserve column order when inserting rows into database.
                  [org.flatland/ordered "1.15.12"]
