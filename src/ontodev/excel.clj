@@ -224,6 +224,7 @@
   )
 
 
+;; 2026-01-23: Add n-drop-rows: do not use the first n rows at all.
 (defn read-sheet
   "Given a workbook with an optional sheet name (default is 'Sheet1') and
    and optional header row number (default is '1'),
@@ -237,16 +238,42 @@
   ([^Workbook workbook] (read-sheet {} workbook "Sheet1" 1))
   ([opt ^Workbook workbook] (read-sheet opt workbook "Sheet1" 1))
   ([opt ^Workbook workbook ^String sheet-name] (read-sheet opt workbook sheet-name 1))
-  ([opt ^Workbook workbook ^String sheet-name n-header-rows]
+  ([opt ^Workbook workbook ^String sheet-name n-header-rows] (read-sheet opt workbook sheet-name n-header-rows 0))
+  ([opt ^Workbook workbook ^String sheet-name n-header-rows n-drop-rows]
    (let [sheet          (.getSheet workbook sheet-name)
          rows-all       (->> sheet (.iterator) iterator-seq)
-         rows-header    (take n-header-rows rows-all)
-         rows-data      (drop n-header-rows rows-all)
+         rows-all2      (drop n-drop-rows rows-all)
+         rows-header    (take n-header-rows rows-all2)
+         rows-data      (drop n-header-rows rows-all2)
          cell-fn        (cell-value-fn opt workbook)
          read-row-fn    (partial read-row cell-fn)
          headers        (combine-row-headers rows-header)
          data           (map read-row-fn rows-data)]
      (vec (map (partial ordered-zipmap headers) data)))))
+
+#_(defn read-sheet
+    "Given a workbook with an optional sheet name (default is 'Sheet1') and
+   and optional header row number (default is '1'),
+   return the data in the sheet as a vector of maps
+   using the headers from the header row as the keys.
+   Use :values key in opt (map) to determine how to determine the values:
+     :strings   - the default, all values are returned as strings
+     :values    - the actual values with correct datatype, including dates/times based on cell-formatting
+     :formatted - the formatted values
+   If n-header-rows > 1, use all of the headers to determine field-name"
+    ([^Workbook workbook] (read-sheet {} workbook "Sheet1" 1))
+    ([opt ^Workbook workbook] (read-sheet opt workbook "Sheet1" 1))
+    ([opt ^Workbook workbook ^String sheet-name] (read-sheet opt workbook sheet-name 1))
+    ([opt ^Workbook workbook ^String sheet-name n-header-rows]
+     (let [sheet          (.getSheet workbook sheet-name)
+           rows-all       (->> sheet (.iterator) iterator-seq)
+           rows-header    (take n-header-rows rows-all)
+           rows-data      (drop n-header-rows rows-all)
+           cell-fn        (cell-value-fn opt workbook)
+           read-row-fn    (partial read-row cell-fn)
+           headers        (combine-row-headers rows-header)
+           data           (map read-row-fn rows-data)]
+       (vec (map (partial ordered-zipmap headers) data)))))
 
 (comment
   ;; 2025-11-04: test with incidents, order of columns. Even with ordered-zipmap, it's still the wrong order.
