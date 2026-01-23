@@ -36,12 +36,12 @@
 (defn version
   "Return version details, for now manually"
   []
-  "ndevreeze/excel v0.3.2-SNAPSHOT, [2025-10-30 19:56] with ordered-map")
+  "ndevreeze/excel v0.3.2-SNAPSHOT, [2026-01-23 15:04] with n-drop-rows")
 
 #_(defn version
     "Return version details, for now manually"
     []
-    "ndevreeze/excel v0.3.2-SNAPSHOT, [2024-10-30 18:25] with sorted-map")
+    "ndevreeze/excel v0.3.2-SNAPSHOT, [2025-10-30 19:56] with ordered-map")
 
 (defn get-cell-string-value
   "Get the value of a cell as a string, by changing the cell type to 'string'
