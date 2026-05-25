@@ -6,6 +6,7 @@
             :url "http://opensource.org/licenses/BSD-2-Clause"}
   :dependencies [[org.clojure/clojure "1.12.5"]
                  [org.clojure/tools.logging "1.3.1"]
+                 [nrepl "1.7.0"]
                  ;; 2024-08-17: fixed now, 5.2.5 not needed anymore.
                  [org.apache.poi/poi-ooxml "5.5.1" :exclusions [commons-io]]
                  [clojure.java-time "1.4.3"]
