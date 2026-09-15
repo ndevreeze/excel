@@ -4,7 +4,7 @@
   :url "http://github.com/ndevreeze/excel"
   :license {:name "Simplified BSD License"
             :url "http://opensource.org/licenses/BSD-2-Clause"}
-  :dependencies [[org.clojure/clojure "1.12.5"]
+  :dependencies [[org.clojure/clojure "1.12.6"]
                  [org.clojure/tools.logging "1.3.1"]
                  [nrepl "1.7.0"]
                  ;; 2024-08-17: fixed now, 5.2.5 not needed anymore.
