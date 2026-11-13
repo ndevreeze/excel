@@ -8,12 +8,12 @@
                  [org.clojure/tools.logging "1.3.1"]
                  [nrepl "1.8.0"]
                  ;; 2024-08-17: fixed now, 5.2.5 not needed anymore.
-                 [org.apache.poi/poi-ooxml "5.5.1" :exclusions [commons-io]]
+                 [org.apache.poi/poi-ooxml "6.0.0" :exclusions [commons-io]]
                  [clojure.java-time "1.4.3"]
                  [commons-io "2.22.0"]
 
                  ;; preserve column order when inserting rows into database.
-                 [org.flatland/ordered "1.15.12"]
+                 [org.flatland/ordered "1.16.13"]
                  ;; 2024-08-20: message: ERROR Log4j2 could not find a
                  ;; logging implementation. Please add log4j-core to
                  ;; the classpath. This indeed helps.
