@@ -1,4 +1,4 @@
-(defproject ndevreeze/excel "0.3.2-SNAPSHOT"
+(defproject ndevreeze/excel "0.3.3-SNAPSHOT"
   :description "A thin Clojure wrapper around a small part of Apache POI for
                 reading .xlsx files."
   :url "http://github.com/ndevreeze/excel"
